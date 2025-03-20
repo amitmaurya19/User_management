@@ -3,6 +3,9 @@ import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import './Auth.css';
 
+// Get API URL from environment variables
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 function Register() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -12,7 +15,7 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/register', {
+      const response = await axios.post(`${API_URL}/api/auth/register`, {
         username,
         email,
         password,
@@ -21,8 +24,8 @@ function Register() {
       alert(response.data.message);
       navigate('/login');
     } catch (error) {
-      console.error('Register error:', error.response.data);
-      alert(error.response.data.message || 'Registration failed');
+      console.error('Register error:', error.response?.data || 'Error occurred');
+      alert(error.response?.data?.message || 'Registration failed');
     }
   };
 

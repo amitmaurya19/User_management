@@ -3,6 +3,9 @@ import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import './Auth.css';
 
+// Get API URL from environment variables
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -11,18 +14,18 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
+      const response = await axios.post(`${API_URL}/api/auth/login`, {
         email,
         password,
       });
       console.log('Login response:', response.data);
       localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user)); // Corrected!
+      localStorage.setItem('user', JSON.stringify(response.data.user));
       alert(response.data.message || 'Login Successful!');
       navigate('/dashboard');
     } catch (error) {
-      console.error('Login error:', error.response.data);
-      alert(error.response.data.message || 'Login failed');
+      console.error('Login error:', error.response?.data || 'Error occurred');
+      alert(error.response?.data?.message || 'Login failed');
     }
   };
 

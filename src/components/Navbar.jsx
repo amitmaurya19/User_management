@@ -7,42 +7,21 @@ function Navbar() {
   const location = useLocation(); // Listen to route changes
 
   useEffect(() => {
-    // On every location change, update the username from localStorage
+    // Update the username from localStorage on every route change
     const storedUser = JSON.parse(localStorage.getItem('user'));
     const storedUsername = storedUser ? storedUser.username : null;
-    if (storedUsername) {
-      setUsername(storedUsername);
-    } else {
-      setUsername(null);
-    }
+    setUsername(storedUsername);
   }, [location]);
 
-  // Display the first letter of the username if available, otherwise a default emoji
+  // Display first letter of the username if available, otherwise show a default icon
   const userIcon = username ? username.charAt(0).toUpperCase() : '👤';
 
   return (
     <nav className="navbar">
       <div className="nav-links">
         <Link to="/">Home</Link>
-        {!username ? (
-          <>
-            <Link to="/register">Register</Link>
-            <Link to="/login">Login</Link>
-          </>
-        ) : (
-          <>
-            <Link to="/dashboard">Dashboard</Link>
-            <button
-              onClick={() => {
-                localStorage.removeItem('token');
-                localStorage.removeItem('user');
-                setUsername(null);
-              }}
-            >
-              Logout
-            </button>
-          </>
-        )}
+        <Link to="/register">Register</Link>
+        <Link to="/login">Login</Link>
       </div>
       <div className="user-icon">
         <Link to="/dashboard">
