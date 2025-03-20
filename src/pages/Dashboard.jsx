@@ -14,7 +14,7 @@ function Dashboard() {
     if (!storedUser || !storedUser.username) {
       navigate('/login'); // Redirect if no user is found
     } else {
-      setUsername(storedUser.username); // Set username correctly
+      setUsername(storedUser.username);
     }
   }, [navigate]);
 
